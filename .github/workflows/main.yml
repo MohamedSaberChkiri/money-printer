@@ -1,0 +1,30 @@
+name: Run Money Printing Machine
+
+on:
+  schedule:
+    # 13:45 UTC is 15:45 Berlin time (CEST)
+    # Runs Monday through Friday
+    - cron: '45 13 * * 1-5'
+  workflow_dispatch: # Allows you to run it manually from the GitHub UI
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install alpaca-trade-api pandas numpy scipy
+
+      - name: Run bot
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: python print_money.py
