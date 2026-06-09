@@ -12,6 +12,8 @@ from alpaca.data.historical import StockHistoricalDataClient
 from alpaca.data.requests import StockBarsRequest
 from alpaca.data.timeframe import TimeFrame
 
+from alpaca.data.enums import DataFeed
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 
 class HalalMaxGrowthEngineV3:
@@ -62,7 +64,9 @@ class HalalMaxGrowthEngineV3:
         req = StockBarsRequest(
             symbol_or_symbols=self.universe + [self.benchmark],
             timeframe=TimeFrame.Day,
-            start=start, end=end
+            start=start, 
+            end=end,
+            feed=DataFeed.IEX
         )
         return self.data.get_stock_bars(req).df["close"].unstack(level=0).ffill()
 
