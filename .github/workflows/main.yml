@@ -2,7 +2,7 @@ name: Run Money Printing Machine
 
 on:
   schedule:
-    # 13:45 UTC is 15:45 Berlin time (CEST)
+    # 13:45 UTC is 15:45 (3:45 PM) Berlin Time (CEST)
     # Runs Monday through Friday
     - cron: '45 13 * * 1-5'
   workflow_dispatch: # Allows you to run it manually from the GitHub UI
@@ -21,7 +21,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install alpaca-trade-api pandas numpy scipy
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
       - name: Run bot
         env:
